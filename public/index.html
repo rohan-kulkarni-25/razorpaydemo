@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Razorpay DEMO</title>
+  </head>
+  <body style="background-color: skyblue; display: flex; align-items: center; justify-content: center; margin-top: 5rem;">
+    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+    <h1 style="text-align: center; font-size: 2rem;">Testing Razorpay Payments <br>( DEMO VERSION )</h1>
+      <p>Enter DUMMY DETAILS</p>
+    <img src="./rp.png" style="width: 100%; margin: 2rem; border-radius: 12px;">
+    <button id="rzp-button1" style="cursor: pointer; background-color: white;  font-size: 3rem; border: 1px solid black; border-radius: 12px; padding: 1rem;">Pay</button>
+  </div>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+      const rpbutton = document.getElementById("rzp-button1");
+
+      rpbutton.addEventListener("click", async (event) => {
+        const response = await fetch("/myOrder", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ amount: 500 })
+        });
+
+        const convertReponse = await response.json();
+
+        const { order } = convertReponse;
+
+        var options = {
+          key: "rzp_test_A9EmrGJEBG2NE7", // Enter the Key ID generated from the Dashboard
+          amount: 50000, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+          currency: "INR",
+
+          order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+          handler: function (response) {
+            alert(response.razorpay_payment_id);
+          }
+        };
+
+        var rzp1 = new Razorpay(options);
+
+        rzp1.open();
+      });
+    </script>
+  </body>
+</html>
