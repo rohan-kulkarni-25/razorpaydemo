@@ -18,7 +18,7 @@
       const rpbutton = document.getElementById("rzp-button1");
 
       rpbutton.addEventListener("click", async (event) => {
-        const response = await fetch("/myOrder", {
+        const response = await fetch("https://razorpaydemo.vercel.app/myOrder", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
